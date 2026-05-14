@@ -21,20 +21,27 @@ jobs:
       - name: Run tests
         run: |
           pytest tests/     
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
+
+      - name: Define Image Tag
+        id: vars
+        run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: Build package
-        run: docker build -t flask-app:latest .
+        run: docker build -t fazeelmakhri/flask-app:${{ env.TAG }} .
+
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: fazeelmakhri/flask-app:latest
+          tags: fazeelmakhri/flask-app:${{ env.TAG }}
 
