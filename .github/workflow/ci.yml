@@ -35,13 +35,9 @@ jobs:
         id: vars
         run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      - name: Build package
+      - name: Build Docker Image
         run: docker build -t fazeelmakhri/flask-app:${{ env.TAG }} .
 
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: fazeelmakhri/flask-app:${{ env.TAG }}
+      - name: Push Docker Image
+        run: docker push fazeelmakhri/flask-app:${{ env.TAG }}
 
