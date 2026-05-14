@@ -1,3 +1,6 @@
 #basically put all the dependencies in this file and then we can use pip install -r requirements.txt to install them all at once
 Flask==3.0.1    
 flask-cors==3.0.10
+pytest==7.2.0
+pytest-cov==3.0.0   
+
